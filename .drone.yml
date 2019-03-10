@@ -1,0 +1,36 @@
+---
+kind: pipeline
+name: build
+
+steps:
+  - name: build
+    pull: always
+    image: golang
+    commands:
+      - go build -a -o drone-goreportcard .
+    environment:
+      - GO111MODULE=on
+      - CGO_ENABLED=0
+
+  - name: dryrun
+    pull: always
+    image: plugins/docker
+    settings:
+      cache_from: lddsb/drone-goreportcard
+      dockerfile: Dockerfile
+      dryrun: true
+      repo: lddsb/drone-goreportcard
+      tags: latest
+
+  - name: publish
+    pull: always
+    image: plugins/docker
+    settings:
+      cache_from: lddsb/drone-goreportcard
+      dockerfile: Dockerfile
+      repo: lddsb/drone-goreportcard
+      tags: latest
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
