@@ -9,8 +9,8 @@ steps:
     commands:
       - go build -a -o drone-goreportcard .
     environment:
-      - GO111MODULE=on
-      - CGO_ENABLED=0
+      GO111MODULE: on
+      CGO_ENABLED: 0
 
   - name: dryrun
     pull: always
