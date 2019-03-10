@@ -21,6 +21,10 @@ steps:
       dryrun: true
       repo: lddsb/drone-goreportcard
       tags: latest
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
 
   - name: publish
     pull: always
